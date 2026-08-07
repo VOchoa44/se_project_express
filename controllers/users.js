@@ -5,6 +5,7 @@ const {
   BAD_REQUEST,
   NOT_FOUND,
   INTERNAL_SERVER_ERROR,
+  CONFLICT,
 } = require("../utils/errors");
 const { JWT_SECRET } = require("../utils/config");
 
@@ -58,7 +59,7 @@ const createUser = (req, res) => {
         return res.status(BAD_REQUEST).send({ message: err.message });
       }
       if (err.code === 11000) {
-        return res.status(BAD_REQUEST).send({ message: err.message });
+        return res.status(CONFLICT).send({ message: err.message });
       }
       return res
         .status(INTERNAL_SERVER_ERROR)

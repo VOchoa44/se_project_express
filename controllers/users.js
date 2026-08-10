@@ -6,17 +6,9 @@ const {
   NOT_FOUND,
   INTERNAL_SERVER_ERROR,
   CONFLICT,
+  UNAUTHORIZED,
 } = require("../utils/errors");
 const { JWT_SECRET } = require("../utils/config");
-
-const getUsers = (req, res) => {
-  User.find({})
-    .then((users) => res.status(200).send(users))
-    .catch((err) => {
-      console.error(err);
-      return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
-    });
-};
 
 const getCurrentUser = (req, res) => {
   const userId = req.user._id;
@@ -78,7 +70,13 @@ const login = (req, res) => {
       res.status(200).send({ token });
     })
     .catch((err) => {
-      res.status(BAD_REQUEST).send({ message: err.message });
+      if (err.message === "Incorrect email or password")
+        return res
+          .status(UNAUTHORIZED)
+          .send({ message: "Incorrect email or password" });
+      return res
+        .status(INTERNAL_SERVER_ERROR)
+        .send({ message: "An error has occurred on the server" });
     });
 };
 
@@ -109,7 +107,6 @@ const updateCurrentUser = (req, res) => {
 };
 
 module.exports = {
-  getUsers,
   getCurrentUser,
   createUser,
   login,

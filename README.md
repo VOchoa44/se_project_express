@@ -26,3 +26,7 @@ Add request validation
 Improve centralized error handling
 Expand API functionality
 Connect the backend to the WTWR frontend
+
+**Project Pitch Video**
+
+- Video [link](https://www.loom.com/share/d21a78ce9e0047b69608322c91d69d24)

@@ -7,7 +7,6 @@ const { createUser, login } = require("../controllers/users");
 
 router.post("/signup", createUser);
 router.post("/signin", login);
-router.use(auth);
 router.use("/users", userRouter);
 router.use("/items", itemRouter);
 

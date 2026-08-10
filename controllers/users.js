@@ -18,7 +18,7 @@ const getCurrentUser = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "DocumentNotFoundError") {
-        return res.status(NOT_FOUND).send({ message: err.message });
+        return res.status(NOT_FOUND).send({ message: "Invalid data" });
       }
       if (err.name === "CastError") {
         return res.status(BAD_REQUEST).send({ message: err.message });
@@ -61,7 +61,11 @@ const createUser = (req, res) => {
 
 const login = (req, res) => {
   const { email, password } = req.body;
-
+  if (!email || !password) {
+    return res
+      .status(BAD_REQUEST)
+      .send({ message: "Missing email and/or password" });
+  }
   return User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, {

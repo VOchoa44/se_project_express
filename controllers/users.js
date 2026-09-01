@@ -26,7 +26,6 @@ const getCurrentUser = (req, res, next) => {
         return next(new BadRequestError("Invalid data"));
       }
 
-      return res;
       return next(err);
     });
 };
